@@ -28,6 +28,23 @@ jobs:
         with:
           gradle-version: '8.4'
 
+      - name: Ensure persistent debug keystore
+        run: |
+          if [ ! -f app/keystore/debug.keystore ]; then
+            mkdir -p app/keystore
+            keytool -genkeypair -v \
+              -keystore app/keystore/debug.keystore \
+              -storepass android -keypass android \
+              -alias androiddebugkey \
+              -keyalg RSA -keysize 2048 -validity 10000 \
+              -dname "CN=QRISPay Debug, O=QRISPay, C=ID"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add -f app/keystore/debug.keystore
+            git commit -m "CI: add persistent debug keystore for stable signing"
+            git push
+          fi
+
       - name: Build debug APK
         run: gradle assembleDebug --no-daemon --stacktrace
 
