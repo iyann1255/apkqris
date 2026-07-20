@@ -91,4 +91,50 @@ object ApiClient {
             main.post { onResult(ok, body, err) }
         }
     }
+
+    /**
+     * POST JSON ke `path` dengan auth webhook secret (x-webhook-secret).
+     * Dipakai untuk aksi yang mengubah status pembayaran (mis. manual acc /api/mark-paid).
+     */
+    fun postWebhook(ctx: Context, path: String, payload: JSONObject,
+                    onResult: (Boolean, JSONObject?, String?) -> Unit) {
+        val server = serverUrl(ctx)
+        val secret = webhookSecret(ctx)
+        if (server.isBlank()) {
+            onResult(false, null, "Server URL belum diisi (tab Setting).")
+            return
+        }
+        if (secret.isBlank()) {
+            onResult(false, null, "Webhook Secret belum diisi (tab Setting). Diperlukan untuk Acc manual.")
+            return
+        }
+        thread {
+            var ok = false
+            var body: JSONObject? = null
+            var err: String? = null
+            try {
+                val conn = URL("$server$path").openConnection() as HttpURLConnection
+                conn.requestMethod = "POST"
+                conn.connectTimeout = 12000
+                conn.readTimeout = 12000
+                conn.doOutput = true
+                conn.setRequestProperty("Content-Type", "application/json")
+                conn.setRequestProperty("x-webhook-secret", secret)
+                conn.setRequestProperty("Accept", "application/json")
+                conn.outputStream.use { it.write(payload.toString().toByteArray()) }
+                val code = conn.responseCode
+                val stream = if (code in 200..299) conn.inputStream else conn.errorStream
+                val text = stream?.bufferedReader()?.use { it.readText() } ?: ""
+                conn.disconnect()
+                if (code in 200..299) {
+                    body = JSONObject(text); ok = true
+                } else {
+                    err = "HTTP $code"
+                }
+            } catch (e: Exception) {
+                err = e.message ?: "Gagal koneksi"
+            }
+            main.post { onResult(ok, body, err) }
+        }
+    }
 }

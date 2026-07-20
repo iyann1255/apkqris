@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,9 +26,34 @@ class InvoiceFragment : Fragment() {
 
         list.layoutManager = LinearLayoutManager(requireContext())
         list.adapter = adapter
+        adapter.onAccept = { txId -> confirmAccept(txId) }
 
         refresh.setOnRefreshListener { load() }
         return v
+    }
+
+    private fun confirmAccept(txId: String) {
+        val ctx = context ?: return
+        if (txId.isBlank()) return
+        androidx.appcompat.app.AlertDialog.Builder(ctx)
+            .setTitle("Acc Manual")
+            .setMessage("Tandai transaksi ini LUNAS secara manual?")
+            .setNegativeButton("Batal", null)
+            .setPositiveButton("Ya, Lunas") { _, _ -> doAccept(txId) }
+            .show()
+    }
+
+    private fun doAccept(txId: String) {
+        val ctx = context ?: return
+        val payload = org.json.JSONObject().put("transactionId", txId)
+        ApiClient.postWebhook(ctx, "/api/mark-paid", payload) { ok, body, err ->
+            if (ok && body != null && body.optBoolean("success", false)) {
+                Toast.makeText(ctx, "Transaksi ditandai LUNAS", Toast.LENGTH_SHORT).show()
+                load()
+            } else {
+                Toast.makeText(ctx, "Gagal acc: ${err ?: "-"}", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     override fun onResume() {

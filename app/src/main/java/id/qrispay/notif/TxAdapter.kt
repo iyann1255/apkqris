@@ -13,11 +13,15 @@ import java.util.Locale
 class TxAdapter(private val items: MutableList<JSONObject> = mutableListOf()) :
     RecyclerView.Adapter<TxAdapter.VH>() {
 
+    /** Dipanggil saat tombol Acc ditekan untuk transaksi pending. */
+    var onAccept: ((String) -> Unit)? = null
+
     class VH(v: View) : RecyclerView.ViewHolder(v) {
         val amount: TextView = v.findViewById(R.id.txAmount)
         val id: TextView = v.findViewById(R.id.txId)
         val date: TextView = v.findViewById(R.id.txDate)
         val statusChip: TextView = v.findViewById(R.id.txStatus)
+        val accept: android.widget.Button = v.findViewById(R.id.txAccept)
     }
 
     fun submit(arr: JSONArray) {
@@ -55,6 +59,17 @@ class TxAdapter(private val items: MutableList<JSONObject> = mutableListOf()) :
                 holder.statusChip.setBackgroundResource(R.drawable.chip_pending)
                 holder.statusChip.setTextColor(0xFFFBBF24.toInt())
             }
+        }
+
+        // Tombol Acc manual hanya untuk transaksi pending
+        if (status == "pending") {
+            holder.accept.visibility = View.VISIBLE
+            holder.accept.setOnClickListener {
+                onAccept?.invoke(t.optString("transactionId", ""))
+            }
+        } else {
+            holder.accept.visibility = View.GONE
+            holder.accept.setOnClickListener(null)
         }
     }
 
