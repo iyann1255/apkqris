@@ -1,132 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/bg"
-    android:fillViewport="true">
+    android:padding="20dp">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monitor"
+        android:textColor="@color/text"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log notifikasi pembayaran masuk (auto refresh tiap 1 menit)"
+        android:textColor="@color/muted"
+        android:textSize="13sp"
+        android:paddingTop="2dp"
+        android:paddingBottom="14dp" />
+
+    <!-- Status card -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_card"
+        android:padding="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Monitor"
-            android:textColor="@color/text"
-            android:textSize="26sp"
-            android:textStyle="bold" />
+        <View
+            android:id="@+id/statusDot"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@drawable/dot_off"
+            android:layout_marginEnd="12dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Status pemantauan notifikasi pembayaran"
-            android:textColor="@color/muted"
-            android:textSize="14sp"
-            android:paddingTop="2dp"
-            android:paddingBottom="14dp" />
-
-        <!-- Status card -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_card"
-            android:padding="18dp">
-
-            <View
-                android:id="@+id/statusDot"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:background="@drawable/dot_off"
-                android:layout_marginEnd="12dp" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/statusTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Akses Notifikasi Nonaktif"
-                    android:textColor="@color/text"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:id="@+id/statusSub"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Aktifkan agar pembayaran terverifikasi otomatis."
-                    android:textColor="@color/muted"
-                    android:textSize="12sp"
-                    android:paddingTop="2dp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/grant"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="Aktifkan Akses Notifikasi" />
-
-        <!-- Watch mode card -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/bg_card"
-            android:padding="18dp"
-            android:layout_marginTop="14dp">
-
+            android:layout_weight="1"
+            android:orientation="vertical">
             <TextView
+                android:id="@+id/statusTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mode Pemantauan"
+                android:text="Akses Notifikasi Nonaktif"
                 android:textColor="@color/text"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-
             <TextView
-                android:id="@+id/watchMode"
+                android:id="@+id/statusSub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="—"
-                android:textColor="@color/accent"
-                android:textSize="13sp"
-                android:paddingTop="6dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Aplikasi yang dipantau:"
+                android:text="Aktifkan agar pembayaran terverifikasi otomatis."
                 android:textColor="@color/muted"
                 android:textSize="12sp"
-                android:paddingTop="12dp" />
-
-            <TextView
-                android:id="@+id/watchedApps"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="DANA, GoPay, OVO, ShopeePay, LinkAja, BCA, BRImo, Livin, BNI, dll."
-                android:textColor="@color/text"
-                android:textSize="13sp"
-                android:paddingTop="4dp"
-                android:lineSpacingExtra="3dp" />
+                android:paddingTop="2dp" />
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Notifikasi uang masuk dari aplikasi terpantau akan diteruskan ke server untuk mencocokkan transaksi secara otomatis."
-            android:textColor="@color/muted"
-            android:textSize="12sp"
-            android:lineSpacingExtra="3dp" />
     </LinearLayout>
-</ScrollView>
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:weightSum="2">
+        <Button
+            android:id="@+id/grant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:text="Aktifkan Akses" />
+        <Button
+            android:id="@+id/ping"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:text="Ping Server" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/pingResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/muted"
+        android:textSize="12sp"
+        android:paddingTop="10dp"
+        android:paddingBottom="4dp"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log Notifikasi Masuk"
+        android:textColor="@color/text"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp" />
+
+    <TextView
+        android:id="@+id/logEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Belum ada notifikasi masuk."
+        android:textColor="@color/muted"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:paddingTop="16dp"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/logList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="12dp" />
+</LinearLayout>
