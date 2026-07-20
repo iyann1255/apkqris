@@ -24,6 +24,31 @@ object ApiClient {
     fun isConfigured(ctx: Context): Boolean =
         serverUrl(ctx).isNotBlank() && licenseKey(ctx).isNotBlank()
 
+    // ---- Session / onboarding state ----
+    fun isLoggedIn(ctx: Context): Boolean =
+        prefs(ctx).getBoolean("logged_in", false) && isConfigured(ctx)
+
+    fun introSeen(ctx: Context): Boolean =
+        prefs(ctx).getBoolean("intro_seen", false)
+
+    fun setIntroSeen(ctx: Context) {
+        prefs(ctx).edit().putBoolean("intro_seen", true).apply()
+    }
+
+    /** Simpan kredensial & tandai sudah login. */
+    fun saveSession(ctx: Context, server: String, license: String) {
+        prefs(ctx).edit()
+            .putString("server", server.trim())
+            .putString("license", license.trim())
+            .putBoolean("logged_in", true)
+            .apply()
+    }
+
+    /** Hapus status login (kredensial dibiarkan agar mudah login ulang). */
+    fun logout(ctx: Context) {
+        prefs(ctx).edit().putBoolean("logged_in", false).apply()
+    }
+
     /**
      * GET path (mis. "/api/me"). Callback dipanggil di main thread:
      *   onResult(success: Boolean, body: JSONObject?, error: String?)

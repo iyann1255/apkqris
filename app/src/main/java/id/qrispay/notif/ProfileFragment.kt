@@ -34,8 +34,19 @@ class ProfileFragment : Fragment() {
         status = v.findViewById(R.id.status)
 
         v.findViewById<Button>(R.id.copyKey).setOnClickListener { copyKey() }
+        v.findViewById<Button>(R.id.logout).setOnClickListener { doLogout() }
         refresh.setOnRefreshListener { load() }
         return v
+    }
+
+    private fun doLogout() {
+        val ctx = context ?: return
+        ApiClient.logout(ctx)
+        val i = android.content.Intent(ctx, LoginActivity::class.java)
+        i.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or
+            android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(i)
+        activity?.finish()
     }
 
     override fun onResume() {
