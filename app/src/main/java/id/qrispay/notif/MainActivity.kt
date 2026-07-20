@@ -1,44 +1,44 @@
 package id.qrispay.notif
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
+    private val dashboard = DashboardFragment()
+    private val monitor = MonitorFragment()
+    private val invoice = InvoiceFragment()
+    private val setting = SettingFragment()
+    private val profile = ProfileFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val p = getSharedPreferences("cfg", Context.MODE_PRIVATE)
-        val server = findViewById<EditText>(R.id.server)
-        val license = findViewById<EditText>(R.id.license)
-        val watchAll = findViewById<CheckBox>(R.id.watchAll)
-        val save = findViewById<Button>(R.id.save)
-        val grant = findViewById<Button>(R.id.grant)
-
-        server.setText(p.getString("server", "https://qrispay.deviynsp.biz.id"))
-        license.setText(p.getString("license", ""))
-        watchAll.isChecked = p.getBoolean("watch_all", false)
-
-        save.setOnClickListener {
-            p.edit()
-                .putString("server", server.text.toString().trim())
-                .putString("license", license.text.toString().trim())
-                .putBoolean("watch_all", watchAll.isChecked)
-                .apply()
-            Toast.makeText(this, "Tersimpan", Toast.LENGTH_SHORT).show()
+        val nav = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        nav.setOnItemSelectedListener { item ->
+            val f: Fragment = when (item.itemId) {
+                R.id.nav_dashboard -> dashboard
+                R.id.nav_monitor -> monitor
+                R.id.nav_invoice -> invoice
+                R.id.nav_setting -> setting
+                R.id.nav_profile -> profile
+                else -> dashboard
+            }
+            show(f)
+            true
         }
 
-        grant.setOnClickListener {
-            // buka setelan akses notifikasi supaya user aktifkan service ini
-            startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
+        if (savedInstanceState == null) {
+            nav.selectedItemId = R.id.nav_dashboard
         }
+    }
+
+    private fun show(f: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, f)
+            .commit()
     }
 }

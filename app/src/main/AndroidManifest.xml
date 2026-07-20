@@ -8,7 +8,7 @@
         android:allowBackup="true"
         android:icon="@android:drawable/ic_dialog_email"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Material3.DayNight">
+        android:theme="@style/Theme.QRISPay">
 
         <activity
             android:name=".MainActivity"
