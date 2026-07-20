@@ -18,6 +18,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val nav = findViewById<BottomNavigationView>(R.id.bottom_nav)
+
+        // minta izin POST_NOTIFICATIONS (Android 13+) agar notifikasi bisa tampil
+        if (android.os.Build.VERSION.SDK_INT >= 33) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1001)
+            }
+        }
         nav.setOnItemSelectedListener { item ->
             val f: Fragment = when (item.itemId) {
                 R.id.nav_dashboard -> dashboard

@@ -86,19 +86,37 @@ class MonitorFragment : Fragment() {
             pingResult.text = "Belum login / dikonfigurasi."
             return
         }
-        pingResult.text = "Ping…"
+        pingResult.setTextColor(ctx.getColor(R.color.muted))
+        pingResult.text = "Ping & tes notifikasi…"
+
+        // 1) Tes pembacaan notifikasi: kirim notif bertanda, listener sendiri
+        //    harus menangkapnya. Catat waktu sebelumnya untuk pembanding.
+        val prefs = ctx.getSharedPreferences("cfg", Context.MODE_PRIVATE)
+        val before = prefs.getLong("test_seen_at", 0L)
+        Notifier.notify(ctx, 999001, "QRISPay Ping",
+            "Tes pembacaan notifikasi ${PaymentNotificationListener.TEST_MARKER}")
+
+        // 2) Ping server
         val t0 = System.currentTimeMillis()
-        ApiClient.getJson(ctx, "/api/ping") { ok, body, err ->
-            if (ok && body != null && body.optBoolean("success", false)) {
-                val ms = System.currentTimeMillis() - t0
-                val data = body.optJSONObject("data")
-                val st = data?.optString("serverTime", "") ?: ""
-                pingResult.setTextColor(ctx.getColor(R.color.ok))
-                pingResult.text = "✓ Server OK (${ms}ms) • $st UTC"
-            } else {
-                pingResult.setTextColor(ctx.getColor(R.color.danger))
-                pingResult.text = "✗ Gagal: ${err ?: "tidak terhubung"}"
-            }
+        ApiClient.getJson(ctx, "/api/ping") { ok, body, _ ->
+            val serverPart = if (ok && body != null && body.optBoolean("success", false)) {
+                "✓ Server OK (${System.currentTimeMillis() - t0}ms)"
+            } else "✗ Server tidak terhubung"
+
+            // beri jeda agar listener sempat menerima notif tes
+            handler.postDelayed({
+                val c = context ?: return@postDelayed
+                val after = prefs.getLong("test_seen_at", 0L)
+                val notifOn = after > before
+                val notifPart = if (notifOn) "✓ Notif AKTIF (terbaca)" else "✗ Notif TIDAK terbaca"
+                c.let {
+                    pingResult.setTextColor(
+                        it.getColor(if (ok && notifOn) R.color.ok else R.color.warn)
+                    )
+                    pingResult.text = "$serverPart  •  $notifPart"
+                }
+                renderStatus()
+            }, 1800)
         }
     }
 
