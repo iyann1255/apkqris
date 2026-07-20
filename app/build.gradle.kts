@@ -11,8 +11,8 @@ android {
         applicationId = "id.qrispay.notif"
         minSdk = 21
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.2"
+        versionCode = 4
+        versionName = "1.3"
     }
 
     signingConfigs {
@@ -32,6 +32,8 @@ android {
     buildTypes {
         debug {
             signingConfig = signingConfigs.getByName("debug")
+            // matikan debuggable agar data/kredensial tidak bisa diekstrak via debugger
+            isDebuggable = false
         }
         release {
             isMinifyEnabled = false

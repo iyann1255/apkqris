@@ -21,16 +21,19 @@ class SettingFragment : Fragment() {
 
         val server = v.findViewById<EditText>(R.id.server)
         val license = v.findViewById<EditText>(R.id.license)
+        val webhookSecret = v.findViewById<EditText>(R.id.webhookSecret)
         val watchAll = v.findViewById<CheckBox>(R.id.watchAll)
 
         server.setText(p.getString("server", "https://qrispay.deviynsp.biz.id"))
         license.setText(p.getString("license", ""))
+        webhookSecret.setText(p.getString("webhook_secret", ""))
         watchAll.isChecked = p.getBoolean("watch_all", false)
 
         v.findViewById<Button>(R.id.save).setOnClickListener {
             p.edit()
                 .putString("server", server.text.toString().trim())
                 .putString("license", license.text.toString().trim())
+                .putString("webhook_secret", webhookSecret.text.toString().trim())
                 .putBoolean("watch_all", watchAll.isChecked)
                 .apply()
             Toast.makeText(requireContext(), "Tersimpan", Toast.LENGTH_SHORT).show()

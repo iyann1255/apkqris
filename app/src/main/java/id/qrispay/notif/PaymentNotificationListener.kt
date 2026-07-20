@@ -61,8 +61,8 @@ class PaymentNotificationListener : NotificationListenerService() {
     private fun forward(notificationText: String, pkg: String) {
         val p = prefs()
         val server = p.getString("server", "")?.trimEnd('/') ?: ""
-        val license = p.getString("license", "") ?: ""
-        if (server.isBlank() || license.isBlank()) return
+        val webhookSecret = p.getString("webhook_secret", "") ?: ""
+        if (server.isBlank() || webhookSecret.isBlank()) return
 
         thread {
             try {
@@ -73,7 +73,7 @@ class PaymentNotificationListener : NotificationListenerService() {
                 conn.readTimeout = 10000
                 conn.doOutput = true
                 conn.setRequestProperty("Content-Type", "application/json")
-                conn.setRequestProperty("x-license-key", license)
+                conn.setRequestProperty("x-webhook-secret", webhookSecret)
 
                 val body = JSONObject()
                     .put("notification_text", notificationText)

@@ -81,6 +81,24 @@
                 android:fontFamily="monospace"
                 android:hint="lc_xxxxxxxx" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Webhook Secret"
+                android:textColor="@color/muted"
+                android:textSize="13sp"
+                android:paddingTop="14dp" />
+
+            <EditText
+                android:id="@+id/webhookSecret"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="@color/text"
+                android:textColorHint="@color/muted"
+                android:fontFamily="monospace"
+                android:hint="whsec_xxxxxxxx (untuk verifikasi pembayaran)" />
+
             <Button
                 android:id="@+id/login"
                 android:layout_width="match_parent"

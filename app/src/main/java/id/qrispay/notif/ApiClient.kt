@@ -21,6 +21,9 @@ object ApiClient {
     fun licenseKey(ctx: Context): String =
         prefs(ctx).getString("license", "") ?: ""
 
+    fun webhookSecret(ctx: Context): String =
+        prefs(ctx).getString("webhook_secret", "") ?: ""
+
     fun isConfigured(ctx: Context): Boolean =
         serverUrl(ctx).isNotBlank() && licenseKey(ctx).isNotBlank()
 
@@ -36,10 +39,11 @@ object ApiClient {
     }
 
     /** Simpan kredensial & tandai sudah login. */
-    fun saveSession(ctx: Context, server: String, license: String) {
+    fun saveSession(ctx: Context, server: String, license: String, webhookSecret: String = "") {
         prefs(ctx).edit()
             .putString("server", server.trim())
             .putString("license", license.trim())
+            .putString("webhook_secret", webhookSecret.trim())
             .putBoolean("logged_in", true)
             .apply()
     }
