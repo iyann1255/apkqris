@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         val save = findViewById<Button>(R.id.save)
         val grant = findViewById<Button>(R.id.grant)
 
-        server.setText(p.getString("server", "http://43.159.49.150"))
+        server.setText(p.getString("server", "https://qrispay.deviynsp.biz.id"))
         license.setText(p.getString("license", ""))
         watchAll.isChecked = p.getBoolean("watch_all", false)
 

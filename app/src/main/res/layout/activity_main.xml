@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textUri"
-            android:hint="http://43.159.49.150" />
+            android:hint="https://qrispay.deviynsp.biz.id" />
 
         <TextView
             android:layout_width="match_parent"
