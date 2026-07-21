@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log notifikasi pembayaran masuk (auto refresh tiap 1 menit)"
+        android:text="Log aktivitas: QRIS dibuat &amp; pembayaran masuk (auto tiap 1 menit)"
         android:textColor="@color/muted"
         android:textSize="13sp"
         android:paddingTop="2dp"
@@ -100,7 +100,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log Notifikasi Masuk"
+        android:text="Log Aktivitas"
         android:textColor="@color/text"
         android:textSize="15sp"
         android:textStyle="bold"

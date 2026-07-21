@@ -40,8 +40,14 @@ class LogAdapter(private val items: MutableList<JSONObject> = mutableListOf()) :
         val at = l.optString("createdAt", "")
         holder.meta.text = listOf(src, at).filter { it.isNotBlank() && it != "null" }.joinToString(" • ")
 
+        val note = l.optString("note", "").lowercase()
         val matched = !l.isNull("matchedTx") && l.optString("matchedTx").isNotBlank()
-        holder.dot.setBackgroundResource(if (matched) R.drawable.dot_ok else R.drawable.dot_off)
+        val dotRes = when {
+            note.contains("dibuat") -> R.drawable.dot_info   // pembuatan QRIS
+            matched -> R.drawable.dot_ok                       // pembayaran cocok
+            else -> R.drawable.dot_off                         // masuk, tidak cocok
+        }
+        holder.dot.setBackgroundResource(dotRes)
     }
 
     override fun getItemCount(): Int = items.size
