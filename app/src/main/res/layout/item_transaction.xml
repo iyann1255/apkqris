@@ -68,4 +68,17 @@
         android:paddingEnd="16dp"
         android:layout_marginStart="8dp"
         android:visibility="gone" />
+
+    <Button
+        android:id="@+id/txReject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tolak"
+        android:textSize="12sp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:layout_marginStart="6dp"
+        android:visibility="gone" />
 </LinearLayout>

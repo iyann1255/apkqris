@@ -27,9 +27,34 @@ class InvoiceFragment : Fragment() {
         list.layoutManager = LinearLayoutManager(requireContext())
         list.adapter = adapter
         adapter.onAccept = { txId -> confirmAccept(txId) }
+        adapter.onReject = { txId -> confirmReject(txId) }
 
         refresh.setOnRefreshListener { load() }
         return v
+    }
+
+    private fun confirmReject(txId: String) {
+        val ctx = context ?: return
+        if (txId.isBlank()) return
+        androidx.appcompat.app.AlertDialog.Builder(ctx)
+            .setTitle("Tolak Transaksi")
+            .setMessage("Tolak / batalkan transaksi ini?")
+            .setNegativeButton("Batal", null)
+            .setPositiveButton("Ya, Tolak") { _, _ -> doReject(txId) }
+            .show()
+    }
+
+    private fun doReject(txId: String) {
+        val ctx = context ?: return
+        val payload = org.json.JSONObject().put("transactionId", txId)
+        ApiClient.postWebhook(ctx, "/api/mark-cancelled", payload) { ok, body, err ->
+            if (ok && body != null && body.optBoolean("success", false)) {
+                Toast.makeText(ctx, "Transaksi ditolak", Toast.LENGTH_SHORT).show()
+                load()
+            } else {
+                Toast.makeText(ctx, "Gagal menolak: ${err ?: "-"}", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun confirmAccept(txId: String) {
