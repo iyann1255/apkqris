@@ -35,6 +35,12 @@ class ProfileFragment : Fragment() {
 
         v.findViewById<Button>(R.id.copyKey).setOnClickListener { copyKey() }
         v.findViewById<Button>(R.id.logout).setOnClickListener { doLogout() }
+        v.findViewById<Button>(R.id.openSetting).setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.container, SettingFragment())
+                .addToBackStack(null)
+                .commit()
+        }
         refresh.setOnRefreshListener { load() }
         return v
     }

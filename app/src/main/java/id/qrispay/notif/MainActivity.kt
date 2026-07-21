@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
     private val dashboard = DashboardFragment()
     private val monitor = MonitorFragment()
     private val invoice = InvoiceFragment()
-    private val setting = SettingFragment()
+    private val create = CreateFragment()
     private val profile = ProfileFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_dashboard -> dashboard
                 R.id.nav_monitor -> monitor
                 R.id.nav_invoice -> invoice
-                R.id.nav_setting -> setting
+                R.id.nav_create -> create
                 R.id.nav_profile -> profile
                 else -> dashboard
             }

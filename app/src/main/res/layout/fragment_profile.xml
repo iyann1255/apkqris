@@ -142,11 +142,18 @@
                 android:gravity="center" />
 
             <Button
+                android:id="@+id/openSetting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="⚙️ Pengaturan (Server / License / Webhook)" />
+
+            <Button
                 android:id="@+id/logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Keluar"
-                android:layout_marginTop="18dp" />
+                android:layout_marginTop="10dp" />
         </LinearLayout>
     </ScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

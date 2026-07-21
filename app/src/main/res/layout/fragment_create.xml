@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buat QRIS"
+            android:textColor="@color/text"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buat QRIS pembayaran dengan nominal tertentu"
+            android:textColor="@color/muted"
+            android:textSize="14sp"
+            android:paddingTop="2dp"
+            android:paddingBottom="14dp" />
+
+        <!-- Form -->
+        <LinearLayout
+            android:id="@+id/formBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card"
+            android:padding="18dp">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Pilih QRIS" android:textColor="@color/muted" android:textSize="13sp" />
+            <Spinner
+                android:id="@+id/spinnerQris"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_stat"
+                android:padding="10dp" />
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Nominal (Rp)" android:textColor="@color/muted" android:textSize="13sp"
+                android:paddingTop="14dp" />
+            <EditText
+                android:id="@+id/amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textColor="@color/text"
+                android:textColorHint="@color/muted"
+                android:hint="mis: 25000" />
+
+            <Button
+                android:id="@+id/generate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Buat QRIS" />
+
+            <TextView
+                android:id="@+id/formStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/danger"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Result -->
+        <LinearLayout
+            android:id="@+id/resultBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_card"
+            android:padding="20dp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Total Pembayaran" android:textColor="@color/muted" android:textSize="13sp" />
+            <TextView
+                android:id="@+id/resultAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp 0"
+                android:textColor="@color/text"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:paddingBottom="14dp" />
+
+            <ImageView
+                android:id="@+id/qrImage"
+                android:layout_width="240dp"
+                android:layout_height="240dp"
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:contentDescription="QRIS" />
+
+            <TextView
+                android:id="@+id/resultStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="⏳ Menunggu pembayaran…"
+                android:textColor="@color/warn"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:paddingTop="16dp" />
+
+            <TextView
+                android:id="@+id/resultTxId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/muted"
+                android:textSize="11sp"
+                android:gravity="center"
+                android:paddingTop="6dp" />
+
+            <Button
+                android:id="@+id/again"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Buat QRIS Baru" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
