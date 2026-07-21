@@ -43,11 +43,13 @@ class PaymentNotificationListener : NotificationListenerService() {
             val big = extras.getCharSequence(Notification.EXTRA_BIG_TEXT)?.toString() ?: ""
             val full = listOf(title, text, big).filter { it.isNotBlank() }.joinToString(" | ")
 
-            // Notifikasi TEST dari app sendiri: bukti bahwa listener benar-benar
-            // menerima notifikasi (akses notif ON). Catat waktu, jangan diteruskan.
-            if (pkg == packageName && full.contains(TEST_MARKER)) {
-                prefs().edit().putLong("test_seen_at", System.currentTimeMillis()).apply()
-                Log.i("QRISPayNotif", "test notif diterima listener")
+            // Notifikasi dari APP SENDIRI (mis. "QRIS baru dibuat", atau tes ping):
+            // jangan pernah diteruskan sebagai pembayaran — cukup catat tes-nya.
+            if (pkg == packageName) {
+                if (full.contains(TEST_MARKER)) {
+                    prefs().edit().putLong("test_seen_at", System.currentTimeMillis()).apply()
+                    Log.i("QRISPayNotif", "test notif diterima listener")
+                }
                 return
             }
 
